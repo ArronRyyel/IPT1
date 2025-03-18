@@ -3,34 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+    <title>MediConnect Healthcare Dashboard</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #4a235a 0%, #8e44ad 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        
+        .dashboard-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 1200px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4a235a 0%, #8e44ad 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            margin-left: 10px;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info {
+            margin-right: 20px;
+            text-align: right;
+        }
+        
+        .logout-btn {
+            background: linear-gradient(to right, #e74c3c, #f39c12);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-card h3 {
+            margin-top: 0;
+            color: #4a235a;
+            font-size: 18px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .recent-activity {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .activity-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .activity-title h3 {
+            margin: 0;
+            color: #4a235a;
+        }
+        
+        .view-all {
+            color: #8e44ad;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        table th, table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        .status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-complete {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .footer {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-
-    <div class="container mx-auto p-6">
-        <div class="flex justify-between items-center mb-4">
-            <h1 class="text-3xl font-bold">Dashboard</h1>
-            <a href="{{ route('logout') }}" class="text-blue-500">Logout</a>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4V20M4 12H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>MediConnect Healthcare Portal</span>
+            </div>
+            <div class="user-menu">
+                <div class="user-info">
+                    <div>Welcome, Justin Benedict</div>
+                    <div style="font-size: 12px;">justinbenedictryel.aquino@lorma.edu</div>
+                </div>
+                <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
+                    @csrf <!-- This adds the CSRF token that Laravel requires for POST requests -->
+                    <button type="submit" class="logout-btn">Sign Out</button>
+                </form>
+            </div>
+        <div class="content">
+            <h2>Dashboard</h2>
+            <p>Access your medical dashboard and continue where you left off.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Ambulances</h3>
+                    <div class="stat-value">10</div>
+                    <p>7 Active, 3 In Maintenance</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Dispatches</h3>
+                    <div class="stat-value">25</div>
+                    <p>12 Completed, 8 In Progress, 5 Pending</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Patients</h3>
+                    <div class="stat-value">50</div>
+                    <p>28 Admitted, 22 Discharged</p>
+                </div>
+            </div>
+            
+            <div class="recent-activity">
+                <div class="activity-title">
+                    <h3>Recent Dispatches</h3>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Ambulance</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#DIS-0025</td>
+                            <td>123 Main St, City Center</td>
+                            <td>Mar 18, 2025</td>
+                            <td>Ambulance #03</td>
+                            <td><span class="status status-active">In Progress</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DIS-0024</td>
+                            <td>456 Park Ave, Highlands</td>
+                            <td>Mar 17, 2025</td>
+                            <td>Ambulance #07</td>
+                            <td><span class="status status-complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DIS-0023</td>
+                            <td>789 Oak Rd, Downtown</td>
+                            <td>Mar 16, 2025</td>
+                            <td>Ambulance #05</td>
+                            <td><span class="status status-complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DIS-0022</td>
+                            <td>321 Pine St, Westview</td>
+                            <td>Mar 15, 2025</td>
+                            <td>Ambulance #02</td>
+                            <td><span class="status status-complete">Complete</span></td>
+                        </tr>
+                        <tr>
+                            <td>#DIS-0021</td>
+                            <td>654 Elm Blvd, Northside</td>
+                            <td>Mar 15, 2025</td>
+                            <td>Ambulance #06</td>
+                            <td><span class="status status-pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold">Ambulances</h2>
-                <p class="text-gray-600 mt-2">Total Ambulances: 10</p>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold">Dispatches</h2>
-                <p class="text-gray-600 mt-2">Total Dispatches: 25</p>
-            </div>
-
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-semibold">Patients</h2>
-                <p class="text-gray-600 mt-2">Total Patients: 50</p>
-            </div>
+        
+        <div class="footer">
+            © 2025 MediConnect Healthcare Systems. All rights reserved.
         </div>
     </div>
-
 </body>
 </html>
