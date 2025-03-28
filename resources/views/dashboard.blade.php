@@ -18,6 +18,8 @@
             justify-content: center;
             align-items: center;
             color: #333;
+            min-height: 100vh;
+            padding: 20px 0;
         }
         
         .dashboard-container {
@@ -69,6 +71,13 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
         .content {
@@ -87,6 +96,12 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
         
         .stat-card h3 {
@@ -96,9 +111,10 @@
         }
         
         .stat-value {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: bold;
             margin: 10px 0;
+            color: #8e44ad;
         }
         
         .recent-activity {
@@ -124,6 +140,12 @@
             color: #8e44ad;
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .view-all:hover {
+            color: #4a235a;
+            text-decoration: underline;
         }
         
         table {
@@ -140,12 +162,19 @@
         table th {
             background-color: #f2f2f2;
             font-weight: bold;
+            color: #4a235a;
+        }
+        
+        table tr:hover {
+            background-color: #f5f5f5;
         }
         
         .status {
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-radius: 20px;
             font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
         }
         
         .status-active {
@@ -171,6 +200,31 @@
             color: #666;
             text-align: center;
         }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-menu {
+                margin-top: 15px;
+                flex-direction: column;
+            }
+            
+            .user-info {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -184,14 +238,15 @@
             </div>
             <div class="user-menu">
                 <div class="user-info">
-                    <div>Welcome, Justin Benedict</div>
-                    <div style="font-size: 12px;">justinbenedictryel.aquino@lorma.edu</div>
+                <div>Welcome, {{ auth()->user()->name }}</div>
+                <div style="font-size: 12px;">{{ auth()->user()->email }}</div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                     @csrf <!-- This adds the CSRF token that Laravel requires for POST requests -->
                     <button type="submit" class="logout-btn">Sign Out</button>
                 </form>
             </div>
+        </div>
         <div class="content">
             <h2>Dashboard</h2>
             <p>Access your medical dashboard and continue where you left off.</p>

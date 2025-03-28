@@ -103,45 +103,58 @@
                     <p class="text-white text-opacity-70 mt-2">Please sign in to your healthcare account</p>
                 </div>
                 
-                <form class="mt-10 space-y-6">
-                    <!-- Username -->
+                <!-- Using proper Laravel form with CSRF protection and route -->
+                <form action="{{ route('login') }}" method="POST" class="mt-10 space-y-6">
+                    @csrf
+                    
+                    <!-- Show validation errors if any -->
+                    @if ($errors->any())
+                        <div class="bg-red-500 bg-opacity-25 text-white p-3 rounded-lg mb-4">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    
+                    <!-- Email Address -->
                     <div>
-                        <label for="username" class="block text-white text-opacity-90 text-sm font-medium mb-2">Username</label>
-                        <input type="text" id="username" placeholder="Enter your username" 
-                               class="custom-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-opacity-50">
+                        <label for="email" class="block text-white text-opacity-90 text-sm font-medium mb-2">Email Address</label>
+                        <input type="email" id="email" name="email" value="{{ old('email') }}" 
+                               placeholder="Enter your email address" 
+                               class="custom-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-opacity-50" required>
                     </div>
                     
                     <!-- Password -->
                     <div>
                         <label for="password" class="block text-white text-opacity-90 text-sm font-medium mb-2">Password</label>
-                        <input type="password" id="password" placeholder="••••••••" 
-                               class="custom-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-opacity-50">
+                        <input type="password" id="password" name="password" placeholder="••••••••" 
+                               class="custom-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-opacity-50" required>
                     </div>
                     
                     <!-- Options -->
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <input id="remember-me" name="remember-me" type="checkbox" 
+                            <input id="remember" name="remember" type="checkbox" 
                                    class="h-4 w-4 bg-black bg-opacity-20 border-0 rounded text-yellow-500 focus:ring-yellow-500">
-                            <label for="remember-me" class="ml-2 block text-white text-opacity-70 text-sm">Remember me</label>
+                            <label for="remember" class="ml-2 block text-white text-opacity-70 text-sm">Remember me</label>
                         </div>
                         <div class="text-sm">
-                            <a href="#" class="text-yellow-400 hover:text-yellow-300">Forgot password?</a>
+                            <a href="{{ route('password.request') }}" class="text-yellow-400 hover:text-yellow-300">Forgot password?</a>
                         </div>
                     </div>
                     
                     <!-- Login Button -->
-                    <div>
-                        <button type="submit" class="login-btn w-full py-3 px-4 text-white font-medium rounded-lg shadow-lg">
-                            Sign In
-                        </button>
-                    </div>
+                    <button type="submit" class="login-btn w-full py-3 px-4 text-white font-medium rounded-lg shadow-lg">
+                        Sign In
+                    </button>
                     
                     <!-- Sign Up Link -->
                     <div class="text-center mt-6">
                         <p class="text-white text-opacity-70">
                             Don't have an account?
-                            <a href="/register" class="text-yellow-400 hover:text-yellow-300 ml-1">Register</a>
+                            <a href="{{ route('register') }}" class="text-yellow-400 hover:text-yellow-300 ml-1">Register</a>
                         </p>
                     </div>
                     
