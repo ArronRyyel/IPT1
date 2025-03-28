@@ -35,4 +35,9 @@ class PatientController extends Controller
         Patient::destroy($id);
         return response()->json(null, 204);
     }
+
+    public function create()
+    {
+        return view('patients.create'); 
+    }
 }

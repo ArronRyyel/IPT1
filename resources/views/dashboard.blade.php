@@ -18,6 +18,8 @@
             justify-content: center;
             align-items: center;
             color: #333;
+            min-height: 100vh;
+            padding: 20px 0;
         }
         
         .dashboard-container {
@@ -69,6 +71,13 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         
         .content {
@@ -87,6 +96,12 @@
             border-radius: 8px;
             padding: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
         
         .stat-card h3 {
@@ -96,9 +111,10 @@
         }
         
         .stat-value {
-            font-size: 24px;
+            font-size: 36px;
             font-weight: bold;
             margin: 10px 0;
+            color: #8e44ad;
         }
         
         .recent-activity {
@@ -124,6 +140,12 @@
             color: #8e44ad;
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .view-all:hover {
+            color: #4a235a;
+            text-decoration: underline;
         }
         
         table {
@@ -140,12 +162,19 @@
         table th {
             background-color: #f2f2f2;
             font-weight: bold;
+            color: #4a235a;
+        }
+        
+        table tr:hover {
+            background-color: #f5f5f5;
         }
         
         .status {
-            padding: 4px 8px;
-            border-radius: 4px;
+            padding: 6px 10px;
+            border-radius: 20px;
             font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
         }
         
         .status-active {
@@ -171,6 +200,31 @@
             color: #666;
             text-align: center;
         }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .user-menu {
+                margin-top: 15px;
+                flex-direction: column;
+            }
+            
+            .user-info {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -184,36 +238,81 @@
             </div>
             <div class="user-menu">
                 <div class="user-info">
-                    <div>Welcome, Justin Benedict</div>
-                    <div style="font-size: 12px;">justinbenedictryel.aquino@lorma.edu</div>
+                <div>Welcome, {{ auth()->user()->name }}</div>
+                <div style="font-size: 12px;">{{ auth()->user()->email }}</div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
                     @csrf <!-- This adds the CSRF token that Laravel requires for POST requests -->
                     <button type="submit" class="logout-btn">Sign Out</button>
                 </form>
             </div>
-        <div class="content">
-            <h2>Dashboard</h2>
-            <p>Access your medical dashboard and continue where you left off.</p>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3>Ambulances</h3>
-                    <div class="stat-value">10</div>
-                    <p>7 Active, 3 In Maintenance</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Dispatches</h3>
-                    <div class="stat-value">25</div>
-                    <p>12 Completed, 8 In Progress, 5 Pending</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Patients</h3>
-                    <div class="stat-value">50</div>
-                    <p>28 Admitted, 22 Discharged</p>
+        </div>
+            <div class="content">
+                <h2>Dashboard</h2>
+                <p>Access your medical dashboard and continue where you left off.</p>
+                
+                
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Ambulances</h3>
+                        <div class="stat-value">{{ $ambulanceCount }}</div> <!-- Dynamic count -->
+                        <p>{{ $ambulances->where('status', 'Available')->count() }} Available, {{ $ambulances->where('status', 'In-Use')->count() }} In Use, {{ $ambulances->where('status', 'Under Maintenance')->count() }} Under Maintenance</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Dispatches</h3>
+                        <div class="stat-value">25</div>
+                        <p>12 Completed, 8 In Progress, 5 Pending</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Patients</h3>
+                        <div class="stat-value">50</div>
+                        <p>28 Admitted, 22 Discharged</p>
+                    </div>
                 </div>
             </div>
-            
+            <div style="margin-bottom: 20px; margin-left: 20px;">
+                <a href="{{ route('add.patient') }}" class="btn btn-primary" style="margin-right: 10px; background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Patient</a>
+                <a href="{{ route('add.ambulance') }}" class="btn btn-primary" style="background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Ambulance</a>
+            </div>
+            @if (session('success'))
+                <div style="color: green; margin-bottom: 20px; margin-left: 20px;">
+                    {{ session('success') }}
+                </div>
+            @endif
+            <div class="recent-activity">
+                <div class="activity-title">
+                    <h3>List of Ambulances</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>License Plate</th>
+                            <th>Model</th>
+                            <th>Status</th>
+                            <th>Location</th>
+                            <th>Assigned To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($ambulances as $ambulance)
+                            <tr>
+                                <td>{{ $ambulance->id }}</td>
+                                <td>{{ $ambulance->license_plate }}</td>
+                                <td>{{ $ambulance->model }}</td>
+                                <td>{{ $ambulance->status }}</td>
+                                <td>{{ $ambulance->location }}</td>
+                                <td>{{ $ambulance->assigned_to ?? 'Unassigned' }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" style="text-align: center;">No ambulances found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
             <div class="recent-activity">
                 <div class="activity-title">
                     <h3>Recent Dispatches</h3>
@@ -269,9 +368,6 @@
                 </table>
             </div>
         </div>
-        
-        <div class="footer">
-            © 2025 MediConnect Healthcare Systems. All rights reserved.
         </div>
     </div>
 </body>
