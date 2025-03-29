@@ -2,9 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Patient extends Model
 {
-    protected $fillable = ['name', 'age', 'gender', 'address', 'contact_number', 'medical_history'];
+    use HasFactory;
+
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'dob',
+        'gender',
+        'address',
+        'contact_number',
+        'medical_history',
+    ];
 }

@@ -14,8 +14,19 @@ class PatientController extends Controller
 
     public function store(Request $request)
     {
-        $patient = Patient::create($request->all());
-        return response()->json($patient, 201);
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'dob' => 'required|date',
+            'gender' => 'required|string',
+            'address' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:255',
+            'medical_history' => 'nullable|string',
+        ]);
+    
+        Patient::create($validatedData);
+    
+        return redirect()->route('patients.index')->with('success', 'Patient added successfully!');
     }
 
     public function show($id)
