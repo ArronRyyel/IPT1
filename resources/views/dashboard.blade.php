@@ -315,6 +315,41 @@
             </div>
             <div class="recent-activity">
                 <div class="activity-title">
+                    <h3>List of Patients</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                            <th>Contact Number</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($patients as $patient)
+                            <tr>
+                                <td>{{ $patient->id }}</td>
+                                <td>{{ $patient->first_name }}</td>
+                                <td>{{ $patient->last_name }}</td>
+                                <td>{{ $patient->dob }}</td>
+                                <td>{{ $patient->gender }}</td>
+                                <td>{{ $patient->contact_number }}</td>
+                                <td>{{ $patient->address }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" style="text-align: center;">No patients found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+            <div class="recent-activity">
+                <div class="activity-title">
                     <h3>Recent Dispatches</h3>
                     <a href="#" class="view-all">View All</a>
                 </div>

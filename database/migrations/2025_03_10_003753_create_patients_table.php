@@ -16,13 +16,13 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->date('dob');
-            $table->string('contact_number');
+            $table->string('gender');
             $table->string('address');
+            $table->string('contact_number');
             $table->text('medical_history')->nullable();
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
