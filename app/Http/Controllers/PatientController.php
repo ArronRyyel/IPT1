@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 class PatientController extends Controller
 {
     public function index()
-    {
-        return Patient::all();
-    }
+{
+    $patients = Patient::all(); // Fetch all patients
+    $patientsCount = Patient::count(); // Get the total count of patients
+    return view('dashboard', compact('patients', 'patientsCount')); // Pass data to the view
+}
 
     public function store(Request $request)
     {

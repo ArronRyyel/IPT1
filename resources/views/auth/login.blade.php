@@ -86,12 +86,12 @@
                         </div>
                         
                         <h2 class="text-white text-3xl font-bold mt-12">MediConnect</h2>
-                        <h2 class="text-white text-3xl font-bold">Healthcare Portal</h2>
-                        <p class="text-white text-opacity-80 mt-4 max-w-xs">Access your medical dashboard and continue where you left off.</p>
+                        <h2 class="text-white text-3xl font-bold">Dispatches Portal</h2>
+                        <p class="text-white text-opacity-80 mt-4 max-w-xs">Access your dispatch dashboard and continue where you left off.</p>
                     </div>
                     
                     <div class="text-white text-opacity-60 text-sm">
-                        © 2025 MediConnect Healthcare Systems. All rights reserved.
+                        © 2025 MediConnect Ambulance Dispatches Systems. All rights reserved.
                     </div>
                 </div>
             </div>

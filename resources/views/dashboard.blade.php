@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediConnect Healthcare Dashboard</title>
+    <title>MediConnect Dispatches Dashboard</title>
     <style>
         body, html {
             margin: 0;
@@ -18,7 +18,7 @@
             justify-content: center;
             align-items: center;
             color: #333;
-            min-height: 100vh;
+            min-height: 230vh;
             padding: 20px 0;
         }
         
@@ -26,7 +26,7 @@
             background-color: white;
             border-radius: 8px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            width: 90%;
+            width: 100%;
             max-width: 1200px;
             overflow: hidden;
             display: flex;
@@ -234,7 +234,7 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 4V20M4 12H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                <span>MediConnect Healthcare Portal</span>
+                <span>MediConnect Dispatch Portal</span>
             </div>
             <div class="user-menu">
                 <div class="user-info">
@@ -249,7 +249,7 @@
         </div>
             <div class="content">
                 <h2>Dashboard</h2>
-                <p>Access your medical dashboard and continue where you left off.</p>
+                <p>Access your dispatch dashboard and continue where you left off.</p>
                 
                 
                 
@@ -266,7 +266,7 @@
                     </div>
                     <div class="stat-card">
                         <h3>Patients</h3>
-                        <div class="stat-value">50</div>
+                        <div class="stat-value">{{ $patientsCount }}</div> <!-- Dynamic count -->
                         <p>28 Admitted, 22 Discharged</p>
                     </div>
                 </div>

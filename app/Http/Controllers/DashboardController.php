@@ -14,10 +14,11 @@ class DashboardController extends Controller
         $patients = Patient::all();
         $ambulances = Ambulance::all();
 
-        // Count the number of ambulances
+        // Count the number of ambulances and patients
         $ambulanceCount = $ambulances->count();
+        $patientsCount = $patients->count();
 
         // Pass the data to the view
-        return view('dashboard', compact('patients', 'ambulances', 'ambulanceCount'));
+        return view('dashboard', compact('patients', 'ambulances', 'ambulanceCount', 'patientsCount'));
     }
 }
