@@ -200,7 +200,21 @@
             color: #666;
             text-align: center;
         }
-        
+
+        .btn-dispatch {
+            background: #2980b9;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .btn-dispatch:hover {
+            background: #3498db;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -242,18 +256,16 @@
                 <div style="font-size: 12px;">{{ auth()->user()->email }}</div>
                 </div>
                 <form method="POST" action="{{ route('logout') }}" style="margin: 0;">
-                    @csrf <!-- This adds the CSRF token that Laravel requires for POST requests -->
+                    @csrf
                     <button type="submit" class="logout-btn">Sign Out</button>
                 </form>
             </div>
         </div>
-            <div class="content">
-                <h2>Dashboard</h2>
-                <p>Access your dispatch dashboard and continue where you left off.</p>
-                
-                
-                
-                <div class="stats-grid">
+        <div class="content">
+            <h2>Dashboard</h2>
+            <p>Access your dispatch dashboard and continue where you left off.</p>
+          
+            <div class="stats-grid">
                     <div class="stat-card">
                         <h3>Ambulances</h3>
                         <div class="stat-value">{{ $ambulanceCount }}</div> <!-- Dynamic count -->
@@ -270,17 +282,20 @@
                         <p>28 Admitted, 22 Discharged</p>
                     </div>
                 </div>
-            </div>
-            <div style="margin-bottom: 20px; margin-left: 20px;">
+            <div style="margin-bottom: 20px;">
                 <a href="{{ route('add.patient') }}" class="btn btn-primary" style="margin-right: 10px; background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Patient</a>
                 <a href="{{ route('add.ambulance') }}" class="btn btn-primary" style="background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Ambulance</a>
+                <a href="{{ route('dispatch.ambulance') }}" class="btn-dispatch" style="margin-left: 10px;">Dispatch Ambulance</a>
             </div>
+
             @if (session('success'))
                 <div style="color: green; margin-bottom: 20px; margin-left: 20px;">
                     {{ session('success') }}
                 </div>
             @endif
-            <div class="recent-activity">
+        </div>
+        <!-- Rest of your content... -->
+      <div class="recent-activity">
                 <div class="activity-title">
                     <h3>List of Ambulances</h3>
                 </div>
@@ -402,8 +417,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        </div>
     </div>
 </body>
 </html>

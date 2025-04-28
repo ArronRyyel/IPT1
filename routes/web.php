@@ -7,6 +7,9 @@ use App\Http\Controllers\DispatchController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\DashboardController;
 
+// Define the route for dispatching an ambulance
+Route::get('/dispatch-ambulance', [DispatchController::class, 'dispatchAmbulance'])->name('dispatch.ambulance');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::resource('ambulances', AmbulanceController::class);
