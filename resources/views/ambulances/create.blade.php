@@ -163,47 +163,59 @@
             <h2 class="page-title">Add Ambulance</h2>
             
             <form action="{{ route('ambulances.store') }}" method="POST" class="form-container">
-                @csrf
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="license_plate">License Plate</label>
-                        <input type="text" id="license_plate" name="license_plate" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="model">Model</label>
-                        <input type="text" id="model" name="model" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select id="status" name="status" required>
-                            <option value="">Select Status</option>
-                            <option value="Available">Available</option>
-                            <option value="In-Use">In-Use</option>
-                            <option value="Under Maintenance">Under Maintenance</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="location">Location</label>
-                        <input type="text" id="location" name="location" required>
-                    </div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="assigned_to">Assigned To</label>
-                        <input type="text" id="assigned_to" name="assigned_to">
-                    </div>
-                </div> 
-                <div class="buttons">
-                    <button type="submit" class="btn btn-primary">Add Ambulance</button>
-                    <button type="button" class="btn btn-secondary" onclick="history.back()">Cancel</button>
-                </div>
-            </form>
+    @csrf
+
+    @if ($errors->any())
+        <div style="color: red; margin-bottom: 15px;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="license_plate">License Plate</label>
+            <input type="text" id="license_plate" name="license_plate" value="{{ old('license_plate') }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="model">Model</label>
+            <input type="text" id="model" name="model" value="{{ old('model') }}" required>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+                <option value="">Select Status</option>
+                <option value="Available" {{ old('status') == 'Available' ? 'selected' : '' }}>Available</option>
+                <option value="In-Use" {{ old('status') == 'In-Use' ? 'selected' : '' }}>In-Use</option>
+                <option value="Under Maintenance" {{ old('status') == 'Under Maintenance' ? 'selected' : '' }}>Under Maintenance</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" name="location" value="{{ old('location') }}" required>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="assigned_to">Assigned To</label>
+            <input type="text" id="assigned_to" name="assigned_to" value="{{ old('assigned_to') }}">
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button type="submit" class="btn btn-primary">Add Ambulance</button>
+        <button type="button" class="btn btn-secondary" onclick="history.back()">Cancel</button>
+    </div>
+</form>
         </div>
     </div>
 </body>

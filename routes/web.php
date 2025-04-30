@@ -18,6 +18,8 @@ Route::resource('patients', PatientController::class);
 Route::get('/ambulances', [AmbulanceController::class, 'index'])->name('ambulances.index');
 Route::get('/add-patient', [PatientController::class, 'create'])->name('add.patient');
 Route::get('/add-ambulance', [AmbulanceController::class, 'create'])->name('add.ambulance');
+Route::get('/dispatch-patient', [DispatchController::class, 'create'])->name('dispatch.patient');
+Route::post('/dispatch-patient', [DispatchController::class, 'store'])->name('dispatch.patient.store');
 
 Route::get('/', function () {
     return view('welcome');

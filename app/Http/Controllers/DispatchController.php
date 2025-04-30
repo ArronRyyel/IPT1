@@ -2,37 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Patient;
+use App\Models\Ambulance;
 use App\Models\Dispatch;
 use Illuminate\Http\Request;
 
 class DispatchController extends Controller
 {
-    public function index()
+    public function create()
     {
-        return Dispatch::with(['ambulance', 'patient'])->get();
+        $patients = Patient::all();
+        $ambulances = Ambulance::where('status', 'Available')->get();
+
+        return view('dispatch.create', compact('patients', 'ambulances'));
     }
 
     public function store(Request $request)
     {
-        $dispatch = Dispatch::create($request->all());
-        return response()->json($dispatch, 201);
-    }
+        $validated = $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'ambulance_id' => 'required|exists:ambulances,id',
+            'location' => 'required|string|max:255',
+        ]);
 
-    public function show($id)
-    {
-        return Dispatch::with(['ambulance', 'patient'])->find($id);
-    }
+        // Create a new dispatch record
+        Dispatch::create($validated);
 
-    public function update(Request $request, $id)
-    {
-        $dispatch = Dispatch::find($id);
-        $dispatch->update($request->all());
-        return response()->json($dispatch, 200);
-    }
+        // Update ambulance status to "In-Use"
+        $ambulance = Ambulance::find($validated['ambulance_id']);
+        $ambulance->update(['status' => 'In-Use']);
 
-    public function destroy($id)
-    {
-        Dispatch::destroy($id);
-        return response()->json(null, 204);
+        return redirect()->route('dashboard')->with('success', 'Patient dispatched successfully!');
     }
 }

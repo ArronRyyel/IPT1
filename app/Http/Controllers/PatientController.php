@@ -11,7 +11,10 @@ class PatientController extends Controller
 {
     $patients = Patient::all(); // Fetch all patients
     $patientsCount = Patient::count(); // Get the total count of patients
-    return view('dashboard', compact('patients', 'patientsCount')); // Pass data to the view
+    $ambulances = \App\Models\Ambulance::all(); // Fetch all ambulances
+    $ambulanceCount = $ambulances->count(); // Get the total count of ambulances
+
+    return view('dashboard', compact('patients', 'patientsCount', 'ambulances', 'ambulanceCount')); // Pass data to the view
 }
 
     public function store(Request $request)

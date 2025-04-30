@@ -18,7 +18,7 @@
             justify-content: center;
             align-items: center;
             color: #333;
-            min-height: 230vh;
+            min-height: 265vh;
             padding: 20px 0;
         }
         
@@ -272,9 +272,10 @@
                 </div>
             </div>
             <div style="margin-bottom: 20px; margin-left: 20px;">
-                <a href="{{ route('add.patient') }}" class="btn btn-primary" style="margin-right: 10px; background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Patient</a>
-                <a href="{{ route('add.ambulance') }}" class="btn btn-primary" style="background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Ambulance</a>
-            </div>
+    <a href="{{ route('add.patient') }}" class="btn btn-primary" style="margin-right: 10px; background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Patient</a>
+    <a href="{{ route('add.ambulance') }}" class="btn btn-primary" style="margin-right: 10px; background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Add Ambulance</a>
+    <a href="{{ route('dispatch.patient') }}" class="btn btn-primary" style="background: #4a235a; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Dispatch Patient</a>
+</div>
             @if (session('success'))
                 <div style="color: green; margin-bottom: 20px; margin-left: 20px;">
                     {{ session('success') }}
@@ -349,59 +350,37 @@
                 </table>
             </div>
             <div class="recent-activity">
-                <div class="activity-title">
-                    <h3>Recent Dispatches</h3>
-                    <a href="#" class="view-all">View All</a>
-                </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Location</th>
-                            <th>Date</th>
-                            <th>Ambulance</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#DIS-0025</td>
-                            <td>123 Main St, City Center</td>
-                            <td>Mar 18, 2025</td>
-                            <td>Ambulance #03</td>
-                            <td><span class="status status-active">In Progress</span></td>
-                        </tr>
-                        <tr>
-                            <td>#DIS-0024</td>
-                            <td>456 Park Ave, Highlands</td>
-                            <td>Mar 17, 2025</td>
-                            <td>Ambulance #07</td>
-                            <td><span class="status status-complete">Complete</span></td>
-                        </tr>
-                        <tr>
-                            <td>#DIS-0023</td>
-                            <td>789 Oak Rd, Downtown</td>
-                            <td>Mar 16, 2025</td>
-                            <td>Ambulance #05</td>
-                            <td><span class="status status-complete">Complete</span></td>
-                        </tr>
-                        <tr>
-                            <td>#DIS-0022</td>
-                            <td>321 Pine St, Westview</td>
-                            <td>Mar 15, 2025</td>
-                            <td>Ambulance #02</td>
-                            <td><span class="status status-complete">Complete</span></td>
-                        </tr>
-                        <tr>
-                            <td>#DIS-0021</td>
-                            <td>654 Elm Blvd, Northside</td>
-                            <td>Mar 15, 2025</td>
-                            <td>Ambulance #06</td>
-                            <td><span class="status status-pending">Pending</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="activity-title">
+        <h3>Recent Dispatches</h3>
+        <a href="{{ route('dispatch.index') }}" class="view-all">View All</a>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Location</th>
+                <th>Date</th>
+                <th>Ambulance</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($dispatches as $dispatch)
+                <tr>
+                    <td>#DIS-{{ $dispatch->id }}</td>
+                    <td>{{ $dispatch->location }}</td>
+                    <td>{{ $dispatch->created_at->format('M d, Y') }}</td>
+                    <td>{{ $dispatch->ambulance->license_plate }}</td>
+                    <td><span class="status status-active">In Progress</span></td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="5" style="text-align: center;">No dispatches found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
         </div>
         </div>
     </div>
