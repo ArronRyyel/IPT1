@@ -365,20 +365,20 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($dispatches as $dispatch)
-                <tr>
-                    <td>#DIS-{{ $dispatch->id }}</td>
-                    <td>{{ $dispatch->location }}</td>
-                    <td>{{ $dispatch->created_at->format('M d, Y') }}</td>
-                    <td>{{ $dispatch->ambulance->license_plate }}</td>
-                    <td><span class="status status-active">In Progress</span></td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="5" style="text-align: center;">No dispatches found.</td>
-                </tr>
-            @endforelse
-        </tbody>
+    @forelse ($dispatches as $dispatch)
+        <tr>
+            <td>#DIS-{{ $dispatch->id }}</td>
+            <td>{{ $dispatch->location }}</td>
+            <td>{{ $dispatch->created_at->format('M d, Y') }}</td>
+            <td>{{ $dispatch->ambulance->license_plate }}</td>
+            <td><span class="status status-active">{{ $dispatch->status }}</span></td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5" style="text-align: center;">No dispatches found.</td>
+        </tr>
+    @endforelse
+</tbody>
     </table>
 </div>
         </div>

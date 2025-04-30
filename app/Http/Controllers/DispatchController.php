@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class DispatchController extends Controller
 {
+    public function index()
+    {
+        $dispatches = Dispatch::with(['ambulance', 'patient'])->get(); // Fetch all dispatches with related data
+        return view('dispatch.index', compact('dispatches')); // Return the view with dispatch data
+    }
     public function create()
     {
         $patients = Patient::all();
