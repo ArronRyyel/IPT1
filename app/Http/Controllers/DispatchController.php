@@ -11,8 +11,8 @@ class DispatchController extends Controller
 {
     public function index()
     {
-        $dispatches = Dispatch::with(['ambulance', 'patient'])->get(); // Fetch all dispatches with related data
-        return view('dispatch.index', compact('dispatches')); // Return the view with dispatch data
+        $dispatches = Dispatch::with(['ambulance', 'patient'])->get(); 
+        return view('dashboard', compact('dispatches')); 
     }
     public function create()
     {
@@ -23,20 +23,26 @@ class DispatchController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'ambulance_id' => 'required|exists:ambulances,id',
-            'location' => 'required|string|max:255',
-        ]);
+{
+    $validated = $request->validate([
+        'patient_id' => 'required|exists:patients,id',
+        'ambulance_id' => 'required|exists:ambulances,id',
+        'location' => 'required|string|max:255',
+    ]);
 
-        // Create a new dispatch record
-        Dispatch::create($validated);
+    // Create a new dispatch record
+    Dispatch::create([
+        'patient_id' => $validated['patient_id'],
+        'ambulance_id' => $validated['ambulance_id'],
+        'location' => $validated['location'],
+        'dispatch_time' => now(), // Add dispatch_time
+        'status' => 'Pending',   // Default status
+    ]);
 
-        // Update ambulance status to "In-Use"
-        $ambulance = Ambulance::find($validated['ambulance_id']);
-        $ambulance->update(['status' => 'In-Use']);
+    // Update ambulance status to "In-Use"
+    $ambulance = Ambulance::find($validated['ambulance_id']);
+    $ambulance->update(['status' => 'In-Use']);
 
-        return redirect()->route('dashboard')->with('success', 'Patient dispatched successfully!');
-    }
+    return redirect()->route('dashboard')->with('success', 'Patient dispatched successfully!');
+}
 }

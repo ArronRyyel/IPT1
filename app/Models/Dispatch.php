@@ -9,7 +9,7 @@ class Dispatch extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['patient_id', 'ambulance_id', 'location'];
+    protected $fillable = ['patient_id', 'ambulance_id', 'location', 'dispatch_time', 'status'];
 
     public function patient()
     {
@@ -21,4 +21,3 @@ class Dispatch extends Model
         return $this->belongsTo(Ambulance::class);
     }
 }
-

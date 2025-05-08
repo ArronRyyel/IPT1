@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('ambulance_id');
             $table->unsignedBigInteger('patient_id');
-            $table->timestamp('dispatch_time');
+            $table->timestamp('dispatch_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('arrival_time')->nullable();
             $table->enum('status', ['Pending', 'En Route', 'Completed', 'Cancelled']);
             $table->string('location');
             $table->foreign('ambulance_id')->references('id')->on('ambulances')->onDelete('cascade');
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
             $table->timestamps();
-        });
+        });        
     }
 
 

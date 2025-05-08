@@ -8,12 +8,9 @@ use App\Http\Controllers\PatientController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 Route::resource('ambulances', AmbulanceController::class);
 Route::resource('dispatches', DispatchController::class);
 Route::resource('patients', PatientController::class);
-
-// Route::get('/dashboard', [AmbulanceController::class, 'index'])->name('dashboard');
 
 Route::get('/ambulances', [AmbulanceController::class, 'index'])->name('ambulances.index');
 Route::get('/add-patient', [PatientController::class, 'create'])->name('add.patient');

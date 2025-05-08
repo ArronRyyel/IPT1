@@ -250,9 +250,6 @@
             <div class="content">
                 <h2>Dashboard</h2>
                 <p>Access your dispatch dashboard and continue where you left off.</p>
-                
-                
-                
                 <div class="stats-grid">
                     <div class="stat-card">
                         <h3>Ambulances</h3>
@@ -260,10 +257,14 @@
                         <p>{{ $ambulances->where('status', 'Available')->count() }} Available, {{ $ambulances->where('status', 'In-Use')->count() }} In Use, {{ $ambulances->where('status', 'Under Maintenance')->count() }} Under Maintenance</p>
                     </div>
                     <div class="stat-card">
-                        <h3>Dispatches</h3>
-                        <div class="stat-value">25</div>
-                        <p>12 Completed, 8 In Progress, 5 Pending</p>
-                    </div>
+    <h3>Dispatches</h3>
+    <div class="stat-value">{{ $dispatches->count() }}</div> <!-- Dynamic count -->
+    <p>
+        {{ $dispatches->where('status', 'Completed')->count() }} Completed, 
+        {{ $dispatches->where('status', 'In Progress')->count() }} In Progress, 
+        {{ $dispatches->where('status', 'Pending')->count() }} Pending
+    </p>
+</div>
                     <div class="stat-card">
                         <h3>Patients</h3>
                         <div class="stat-value">{{ $patientsCount }}</div> <!-- Dynamic count -->
@@ -357,21 +358,23 @@
     <table>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Location</th>
-                <th>Date</th>
-                <th>Ambulance</th>
-                <th>Status</th>
+            <th>ID</th>
+        <th>Patient</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Ambulance</th>
+        <th>Status</th>
             </tr>
         </thead>
         <tbody>
     @forelse ($dispatches as $dispatch)
         <tr>
-            <td>#DIS-{{ $dispatch->id }}</td>
+            <td>{{ $dispatch->id }}</td>
+            <td>{{ $dispatch->patient->first_name ?? 'N/A' }} {{ $dispatch->patient->last_name ?? '' }}</td>
             <td>{{ $dispatch->location }}</td>
-            <td>{{ $dispatch->created_at->format('M d, Y') }}</td>
-            <td>{{ $dispatch->ambulance->license_plate }}</td>
-            <td><span class="status status-active">{{ $dispatch->status }}</span></td>
+            <td>{{ $dispatch->created_at->format('Y-m-d H:i') }}</td>
+            <td>{{ $dispatch->ambulance->license_plate ?? 'N/A' }}</td>
+            <td><span class="status status-{{ strtolower($dispatch->status ?? 'pending') }}">{{ ucfirst($dispatch->status ?? 'Pending') }}</span></td>
         </tr>
     @empty
         <tr>
@@ -379,6 +382,7 @@
         </tr>
     @endforelse
 </tbody>
+
     </table>
 </div>
         </div>
